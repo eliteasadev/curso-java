@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es-MX" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Skills</title>
+</head>
+<body>
+  <h1>Agregar nueva Habilidad</h1>
+  <form th:action="@{/skills/add}" th:object="${skill}" method="post" >
+      <label th:for="nombre">Nombre</label>
+      <input type="text" th:field="*{name}"/>
+      <button type="submit">Guardar</button>
+  </form>
+</body>
+</html>
