@@ -41,6 +41,16 @@ public class SkillsController {
         return skills;
     }
 
+    @GetMapping("/{index}")
+    public String showSkillDetail(@PathVariable int index, Model model){
+        if(index >= 0 && index < skills.size()){
+            Skill skill = skills.get(index);
+            model.addAttribute("skill", skill);
+            return "skill-detail";
+        }
+        return "redirect:/skills";
+    }
+
     @GetMapping("/new")
     public String showForm(Model model) {
         model.addAttribute("skill", new Skill());
