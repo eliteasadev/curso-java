@@ -3,13 +3,11 @@ package com.wutri.tu_cv_spring_boot.cv.controller;
 import com.wutri.tu_cv_spring_boot.cv.model.Skill;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/skills")
@@ -24,9 +22,19 @@ public class SkillsController {
 //    }
 
     @GetMapping()
-    public String showSkills() {
+    public String showSkills(@RequestParam(defaultValue = "", required = false) String filter, Model model) {
+        List<Skill> skilsFilter = skills.stream()
+                        .filter(skill -> skill.getName().toLowerCase().contains(filter.toLowerCase()))
+                                .toList();
+        model.addAttribute("skills", skilsFilter);
+        model.addAttribute("filter", filter);
         return "skills";
     }
+
+//    @GetMapping()
+//    public String showSkills() {
+//        return "skills";
+//    }
 
     @ModelAttribute(name = "skills2")
     public List<Skill> getSkills() {
