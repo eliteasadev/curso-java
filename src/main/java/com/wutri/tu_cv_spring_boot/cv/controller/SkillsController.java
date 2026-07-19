@@ -24,8 +24,8 @@ public class SkillsController {
     @GetMapping()
     public String showSkills(@RequestParam(defaultValue = "", required = false) String filter, Model model) {
         List<Skill> skilsFilter = skills.stream()
-                        .filter(skill -> skill.getName().toLowerCase().contains(filter.toLowerCase()))
-                                .toList();
+                .filter(skill -> skill.getName().toLowerCase().contains(filter.toLowerCase()))
+                .toList();
         model.addAttribute("skills", skilsFilter);
         model.addAttribute("filter", filter);
         return "skills";
@@ -42,13 +42,25 @@ public class SkillsController {
     }
 
     @GetMapping("/{index}")
-    public String showSkillDetail(@PathVariable int index, Model model){
-        if(index >= 0 && index < skills.size()){
+    public String showSkillDetail(@PathVariable int index, Model model) {
+        if (index >= 0 && index < skills.size()) {
             Skill skill = skills.get(index);
             model.addAttribute("skill", skill);
             return "skill-detail";
         }
         return "redirect:/skills";
+    }
+
+    @GetMapping("/{name}/{level}")
+    public String showFilteredSkill(@PathVariable String name, @PathVariable String level, Model model) {
+        List<Skill> skilsFilter = skills.stream()
+                .filter(skill -> skill.getName().equalsIgnoreCase(name)
+                        && skill.getLevel().equalsIgnoreCase(level)
+                )
+                .toList();
+        model.addAttribute("skills", skilsFilter);
+        model.addAttribute("filterMessage", "Filtro : " + name + "- " + level);
+        return "/skills";
     }
 
     @GetMapping("/new")
